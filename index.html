@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การ์ดเชิญงานแต่งงาน | Nes & Dorn</title>
+    <!-- Google Fonts: IBM Plex Sans Thai, Prompt & Noto Serif Thai -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a; /* Navy Blue */
+            --secondary: #3b82f6; /* Dusty Blue */
+            --accent: #d97706; /* Gold */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --cream: #fdfbf7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans Thai', 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif-font {
+            font-family: 'Noto Serif Thai', serif;
+        }
+
+        /* Welcome Overlay Modal */
+        #welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            transition: opacity 0.5s ease;
+        }
+
+        .welcome-card {
+            background: var(--cream);
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--accent);
+        }
+
+        .welcome-logo {
+            width: 160px;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));
+        }
+
+        .welcome-card h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .btn-open {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
+        }
+
+        .btn-open:hover {
+            background: #1e40af;
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        header {
+            text-align: center;
+            padding: 30px 20px 40px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header-logo {
+            width: 140px;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+            filter: drop-shadow(0 2px 5px rgba(30, 58, 138, 0.2));
+        }
+
+        .hero-media-container {
+            width: 100%;
+            max-height: 450px;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: #000;
+        }
+
+        .hero-media-container video,
+        .hero-media-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        header h2 {
+            font-size: 0.95rem;
+            letter-spacing: 3px;
