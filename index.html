@@ -1,151 +1,197 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การ์ดเชิญงานแต่งงาน | Nes & Dorn</title>
-    <!-- Google Fonts: IBM Plex Sans Thai, Prompt & Noto Serif Thai -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #1e3a8a; /* Navy Blue */
-            --secondary: #3b82f6; /* Dusty Blue */
-            --accent: #d97706; /* Gold */
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --white: #ffffff;
-            --cream: #fdfbf7;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142b55">
+  <meta name="description" content="การ์ดเชิญงานแต่งงานของ Nes & Dorn">
+  <title>Wedding Invitation | Nes &amp; Dorn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Noto+Serif+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #142b55;
+      --navy-deep: #0b1933;
+      --blue: #7186a8;
+      --gold: #b99a62;
+      --paper: #fbfaf7;
+      --ink: #263247;
+      --muted: #6d7787;
+      --line: #e7e1d6;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: #edf0f4; color: var(--ink);
+      font-family: "IBM Plex Sans Thai", sans-serif; line-height: 1.7;
+    }
+    button, a { font: inherit; }
+    button { cursor: pointer; }
+    .page {
+      width: min(100%, 760px); min-height: 100vh; margin: 0 auto;
+      background: var(--paper); box-shadow: 0 12px 50px #17243a18;
+      overflow: hidden;
+    }
+    .cover {
+      min-height: 560px; padding: 38px 24px 54px; text-align: center;
+      color: var(--white); position: relative; isolation: isolate;
+      background: linear-gradient(145deg, #1d396b, var(--navy-deep));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .cover::before, .cover::after {
+      content: ""; position: absolute; width: 230px; height: 230px;
+      border: 1px solid #c8b58b66; border-radius: 50%; z-index: -1;
+    }
+    .cover::before { top: -125px; left: -105px; }
+    .cover::after { bottom: -140px; right: -90px; }
+    .logo { width: min(150px, 42vw); max-height: 130px; object-fit: contain; margin-bottom: 20px; }
+    .eyebrow { letter-spacing: .22em; font-size: .76rem; color: #e3d3b2; text-transform: uppercase; }
+    h1, h2, h3 { font-family: "Noto Serif Thai", serif; font-weight: 500; }
+    .cover h1 { margin: 10px 0 2px; font-size: clamp(2.4rem, 9vw, 4.3rem); line-height: 1.25; }
+    .ampersand { color: #d7c29b; font-family: Georgia, serif; font-style: italic; font-size: 2rem; }
+    .cover-sub { margin: 16px 0 0; color: #e6eaf1; font-size: 1rem; }
+    .ornament { width: 74px; height: 1px; background: var(--gold); margin: 24px auto; }
+    .open-button, .rsvp-button {
+      border: 1px solid #d4bd91; color: var(--white); background: transparent;
+      border-radius: 999px; padding: 11px 28px; transition: .2s ease;
+    }
+    .open-button:hover, .rsvp-button:hover { background: #ffffff18; transform: translateY(-1px); }
+    .section { padding: 58px 28px; text-align: center; }
+    .section + .section { border-top: 1px solid var(--line); }
+    .section h2 { color: var(--navy); font-size: clamp(1.45rem, 5vw, 2rem); margin: 0 0 10px; }
+    .lead { color: var(--muted); margin: 0 auto 24px; max-width: 540px; }
+    .hero-media { width: min(100%, 560px); margin: 28px auto 0; border-radius: 14px; overflow: hidden; background: #101827; box-shadow: 0 12px 28px #142b551c; }
+    .hero-media video { display: block; width: 100%; max-height: 420px; object-fit: contain; }
+    .event-card {
+      max-width: 520px; margin: 26px auto 0; padding: 28px 22px;
+      border: 1px solid var(--line); background: #fff; border-radius: 14px;
+    }
+    .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 12px; }
+    .event-item strong { display: block; color: var(--navy); font-size: 1.05rem; }
+    .event-item span { color: var(--muted); font-size: .9rem; }
+    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 580px; margin: 28px auto 0; }
+    .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; background: #e8eaf0; }
+    .rsvp-wrap { background: var(--navy); color: white; padding: 52px 24px; text-align: center; }
+    .rsvp-wrap h2 { margin: 0 0 8px; font-size: 1.8rem; }
+    .rsvp-wrap p { color: #e0e6ef; margin: 0 auto 22px; max-width: 500px; }
+    .rsvp-button { display: inline-block; text-decoration: none; }
+    footer { padding: 24px; text-align: center; color: var(--muted); font-size: .85rem; }
+    #welcome-modal {
+      position: fixed; inset: 0; z-index: 50; padding: 20px;
+      display: grid; place-items: center; background: #09152bea;
+      opacity: 1; visibility: visible; transition: opacity .35s, visibility .35s;
+    }
+    #welcome-modal.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .welcome-card {
+      width: min(100%, 420px); padding: 34px 24px; text-align: center;
+      border: 1px solid var(--gold); border-radius: 18px; background: var(--paper);
+      box-shadow: 0 20px 60px #0005;
+    }
+    .welcome-card .logo { width: 125px; max-height: 110px; }
+    .welcome-card h2 { color: var(--navy); margin: 0 0 8px; font-size: 1.8rem; }
+    .welcome-card p { color: var(--muted); margin: 0 0 22px; }
+    .welcome-card .open-button { color: var(--navy); border-color: var(--navy); }
+    .welcome-card .open-button:hover { color: white; background: var(--navy); }
+    .small-note { color: var(--muted); font-size: .82rem; margin-top: 18px; }
+    @media (max-width: 480px) {
+      .cover { min-height: 510px; }
+      .section { padding: 46px 20px; }
+      .event-grid { grid-template-columns: 1fr; gap: 16px; }
+      .gallery { gap: 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-card">
+      <img class="logo" src="logo.png" alt="Nes &amp; Dorn monogram" onerror="this.hidden=true">
+      <p class="eyebrow">Wedding Invitation</p>
+      <h2 id="welcome-title">Nes <span class="ampersand">&amp;</span> Dorn</h2>
+      <p>ขอเชิญร่วมเป็นส่วนหนึ่งในวันสำคัญของเรา</p>
+      <button class="open-button" id="open-invitation" type="button">เปิดการ์ดเชิญ</button>
+      <p class="small-note">ด้วยรักและยินดี</p>
+    </div>
+  </div>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'IBM Plex Sans Thai', 'Prompt', sans-serif;
-        }
+  <main class="page">
+    <header class="cover">
+      <img class="logo" src="logo.png" alt="Nes &amp; Dorn monogram" onerror="this.hidden=true">
+      <p class="eyebrow">Together with our families</p>
+      <h1>Nes <span class="ampersand">&amp;</span> Dorn</h1>
+      <div class="ornament"></div>
+      <p class="cover-sub">ขอเรียนเชิญร่วมเฉลิมฉลองวันสำคัญของเรา</p>
+      <button class="open-button" type="button" id="view-details">ดูรายละเอียดงาน</button>
+      <div class="hero-media">
+        <video controls playsinline preload="metadata" poster="card1.jpg">
+          <source src="25691024_121114_658.MP4" type="video/mp4">
+          ขออภัย เบราว์เซอร์นี้ไม่รองรับการเล่นวิดีโอ
+        </video>
+      </div>
+    </header>
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    <section class="section" id="details">
+      <p class="eyebrow">Our Special Day</p>
+      <h2>กำหนดการและสถานที่</h2>
+      <p class="lead">เรายินดีเป็นอย่างยิ่งที่จะได้แบ่งปันช่วงเวลาพิเศษนี้กับทุกท่าน</p>
+      <div class="event-card">
+        <div class="event-grid">
+          <div class="event-item"><strong>วัน / วันที่</strong><span>โปรดใส่วันและวันที่จัดงาน</span></div>
+          <div class="event-item"><strong>เวลา</strong><span>โปรดใส่เวลาเริ่มงาน</span></div>
+          <div class="event-item"><strong>สถานที่</strong><span>โปรดใส่ชื่อสถานที่จัดงาน</span></div>
+          <div class="event-item"><strong>การแต่งกาย</strong><span>โทนสีกรมท่า (Navy)</span></div>
+        </div>
+      </div>
+      <p class="small-note">* กรุณาแก้ไขข้อมูลวัน เวลา และสถานที่ในไฟล์ index.html ก่อนเผยแพร่จริง</p>
+    </section>
 
-        h1, h2, h3, .serif-font {
-            font-family: 'Noto Serif Thai', serif;
-        }
+    <section class="section">
+      <p class="eyebrow">Our Memories</p>
+      <h2>ภาพแห่งความทรงจำ</h2>
+      <p class="lead">ขอบคุณที่ร่วมเป็นส่วนหนึ่งในเรื่องราวของเรา</p>
+      <div class="gallery">
+        <img src="card1.jpg" alt="ภาพความทรงจำของ Nes และ Dorn" loading="lazy">
+        <img src="card2.jpg" alt="ภาพความทรงจำของ Nes และ Dorn" loading="lazy">
+      </div>
+    </section>
 
-        /* Welcome Overlay Modal */
-        #welcome-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-            transition: opacity 0.5s ease;
-        }
+    <section class="rsvp-wrap">
+      <p class="eyebrow">With love</p>
+      <h2>แล้วพบกันนะครับ</h2>
+      <p>เรารอคอยที่จะได้ต้อนรับและแบ่งปันความสุขกับทุกท่าน</p>
+      <!-- หากมีลิงก์ตอบรับเข้าร่วมงาน ให้แทน # ด้วย URL จริง -->
+      <a class="rsvp-button" href="#details">ดูรายละเอียดงาน</a>
+    </section>
+    <footer>Made with love · Nes &amp; Dorn</footer>
+  </main>
 
-        .welcome-card {
-            background: var(--cream);
-            padding: 35px 25px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-            border: 2px solid var(--accent);
-        }
+  <script>
+    (() => {
+      const modal = document.getElementById("welcome-modal");
+      const openButton = document.getElementById("open-invitation");
+      const detailsButton = document.getElementById("view-details");
 
-        .welcome-logo {
-            width: 160px;
-            height: auto;
-            margin: 0 auto 15px;
-            display: block;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));
-        }
+      function openInvitation() {
+        modal.classList.add("is-hidden");
+        document.body.style.overflow = "";
+      }
 
-        .welcome-card h1 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+      openButton.addEventListener("click", openInvitation);
+      detailsButton.addEventListener("click", () => {
+        document.getElementById("details").scrollIntoView({ behavior: "smooth" });
+      });
 
-        .welcome-card p {
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            font-size: 1rem;
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.classList.contains("is-hidden")) {
+          openInvitation();
         }
-
-        .btn-open {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 12px 32px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s, transform 0.2s;
-            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
-        }
-
-        .btn-open:hover {
-            background: #1e40af;
-            transform: scale(1.05);
-        }
-
-        /* Main Container */
-        main {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--white);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
-            min-height: 100vh;
-        }
-
-        /* Hero Section */
-        header {
-            text-align: center;
-            padding: 30px 20px 40px;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .header-logo {
-            width: 140px;
-            height: auto;
-            margin: 0 auto 15px;
-            display: block;
-            filter: drop-shadow(0 2px 5px rgba(30, 58, 138, 0.2));
-        }
-
-        .hero-media-container {
-            width: 100%;
-            max-height: 450px;
-            overflow: hidden;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            background: #000;
-        }
-
-        .hero-media-container video,
-        .hero-media-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        header h2 {
-            font-size: 0.95rem;
-            letter-spacing: 3px;
+      });
+    })();
+  </script>
+</body>
+</html>
