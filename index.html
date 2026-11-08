@@ -43,7 +43,9 @@
     .form-message{display:none;margin-top:14px;padding:12px;border-radius:10px;font-size:.9rem}
     .form-message.show{display:block}.form-message.ok{background:#edf8f0;color:#176534}.form-message.err{background:#fff0ee;color:#9b2820}
     .privacy-note{font-size:.78rem;color:var(--muted);margin:10px 0 0}
-    .rsvp-pending{max-width:650px;margin:16px auto 0;padding:16px;border:1px solid #b99a6277;border-radius:12px;background:#ffffff0b;color:#f4efe5;font-size:.9rem}
+.gift-field select{width:100%;padding:12px 13px;border:1px solid #d8dce3;border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+    .gift-field select:focus{outline:2px solid #b99a6266;border-color:var(--gold)}
+    .gift-field [hidden]{display:none!important}
     @media(max-width:600px){.gift-panel{padding:18px 15px}.gift-grid{grid-template-columns:1fr}}
 \n    @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
@@ -117,9 +119,48 @@
     <h2>ร่วมตอบรับและแสดงความยินดี</h2>
     <p class="sub">ขอบพระคุณสำหรับความรัก คำอวยพร และทุกความปรารถนาดีที่มอบให้คู่บ่าวสาว</p>
 
-    <div class="rsvp-pending">
-      <strong>แจ้งการเข้าร่วมงาน (RSVP)</strong><br>
-      ระบบบันทึก RSVP จะเปิดใช้งานหลังตรวจสอบโครงสร้างตาราง RSVP ใน Supabase เพื่อให้ข้อมูลของแขกถูกจัดเก็บอย่างถูกต้อง
+    <div class="gift-panel">
+      <h3>แจ้งการเข้าร่วมงาน (RSVP)</h3>
+      <p class="help">กรุณาแจ้งความประสงค์ล่วงหน้า เพื่อให้เจ้าภาพเตรียมต้อนรับได้อย่างเหมาะสม</p>
+      <form id="rsvpForm">
+        <div class="gift-field">
+          <label for="rsvpName">ชื่อ–นามสกุล *</label>
+          <input id="rsvpName" name="full_name" autocomplete="name" maxlength="150" required>
+        </div>
+        <div class="gift-field">
+          <label for="rsvpPhone">เบอร์โทรศัพท์</label>
+          <input id="rsvpPhone" name="phone" type="tel" autocomplete="tel" maxlength="30">
+        </div>
+        <div class="gift-field">
+          <label for="rsvpAttendance">การเข้าร่วมงาน *</label>
+          <select id="rsvpAttendance" name="attendance" required>
+            <option value="">กรุณาเลือก</option>
+            <option value="attending">ยินดีเข้าร่วมงาน</option>
+            <option value="not_attending">ไม่สะดวกเข้าร่วมงาน</option>
+            <option value="online_gift">ร่วมแสดงความยินดีออนไลน์</option>
+          </select>
+        </div>
+        <div id="rsvpGuestFields" hidden>
+          <div class="gift-field">
+            <label for="rsvpGuestCount">จำนวนผู้เข้าร่วม (รวมตัวท่าน) *</label>
+            <input id="rsvpGuestCount" name="guest_count" type="number" min="1" max="20" step="1" value="1">
+          </div>
+          <div class="gift-field">
+            <label for="rsvpCompanions">ชื่อผู้ติดตาม (ถ้ามี)</label>
+            <textarea id="rsvpCompanions" name="companion_names" rows="2" maxlength="500" placeholder="ระบุชื่อผู้ติดตาม หรือเว้นว่างได้"></textarea>
+          </div>
+        </div>
+        <div class="gift-field">
+          <label for="rsvpWish">ข้อความอวยพรคู่บ่าวสาว (ถ้ามี)</label>
+          <textarea id="rsvpWish" name="message" rows="3" maxlength="1000" placeholder="ฝากคำอวยพรถึงคู่บ่าวสาว"></textarea>
+        </div>
+        <div class="gift-field" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">
+          <label for="rsvpWebsite">Website</label>
+          <input id="rsvpWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-primary gift-submit" id="rsvpSubmit" type="submit">ส่งคำตอบ RSVP</button>
+        <div class="form-message" id="rsvpNotice" role="status" aria-live="polite"></div>
+      </form>
     </div>
 
     <div class="gift-panel">
@@ -162,6 +203,49 @@
 </main>
 
   <script>
+    (function(){
+      const form=document.getElementById('rsvpForm');
+      if(!form) return;
+      const attendance=document.getElementById('rsvpAttendance');
+      const guestFields=document.getElementById('rsvpGuestFields');
+      const guestCount=document.getElementById('rsvpGuestCount');
+      const submit=document.getElementById('rsvpSubmit');
+      const notice=document.getElementById('rsvpNotice');
+      function refreshGuestFields(){
+        const attending=attendance.value==='attending';
+        guestFields.hidden=!attending;
+        guestCount.required=attending;
+      }
+      attendance.addEventListener('change',refreshGuestFields);
+      refreshGuestFields();
+      form.addEventListener('submit',async function(event){
+        event.preventDefault();
+        submit.disabled=true; submit.textContent='กำลังส่งคำตอบ...';
+        notice.className='form-message';
+        const payload={
+          full_name:document.getElementById('rsvpName').value.trim(),
+          phone:document.getElementById('rsvpPhone').value.trim(),
+          attendance:attendance.value,
+          guest_count:attendance.value==='attending'?Number(guestCount.value):null,
+          companion_names:attendance.value==='attending'?document.getElementById('rsvpCompanions').value.trim():'',
+          message:document.getElementById('rsvpWish').value.trim(),
+          website:document.getElementById('rsvpWebsite').value
+        };
+        try{
+          const response=await fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          const result=await response.json();
+          if(!response.ok||!result.success) throw new Error(result.message||'ไม่สามารถบันทึกคำตอบได้');
+          notice.textContent='บันทึกคำตอบเรียบร้อยแล้ว ขอบพระคุณที่แจ้งให้เราทราบ';
+          notice.className='form-message show ok';
+          form.reset(); refreshGuestFields();
+        }catch(error){
+          notice.textContent=error.message||'เกิดข้อผิดพลาด กรุณาลองใหม่';
+          notice.className='form-message show err';
+        }finally{
+          submit.disabled=false; submit.textContent='ส่งคำตอบ RSVP';
+        }
+      });
+    })();
     (function(){
       const form=document.getElementById('giftForm');
       if(!form) return;

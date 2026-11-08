@@ -1,14 +1,19 @@
 # Next Tasks
 
-## Immediate
-1. Confirm the restored `qr-payment.png` is the correct active receiving QR by scanning it with the bank app before production.
-2. Deploy the development branch to a Vercel Preview and test the gift form end-to-end using a small test file.
-3. Confirm the new row appears in Supabase `wedding_gifts` and the private file appears in Google Drive `SLIPS 2026`.
-4. Inspect the existing Supabase schema and RLS policies before implementing RSVP persistence.
-5. Add a dedicated RSVP endpoint and storage table only after confirming the existing schema; never store RSVP data in `wedding_gifts`.
+## Immediate deployment configuration
+1. Add `SUPABASE_URL` and `SUPABASE_ANON_KEY` to Vercel Project Settings → Environment Variables for Preview (and Production only when ready).
+2. Redeploy the preview deployment after setting the variables.
+3. Test RSVP with each allowed attendance value: `attending`, `not_attending`, `online_gift`.
+4. Verify each submission appears in the existing Supabase `rsvps` table and admin-only SELECT remains enforced.
+5. Test gift/slip upload separately; confirm a row in `wedding_gifts` and a private file in Drive `SLIPS 2026`.
 
-## After gift flow verification
-6. Build the public guest-wishes view with moderation controls.
-7. Build the Admin Dashboard and secure admin authentication.
-8. Test mobile/desktop, validation, upload failures and duplicate submissions.
-9. Update deployment documentation and merge to main only after approval.
+## Security before public launch
+6. Add Vercel Firewall/WAF rate limiting or another server-side abuse-control mechanism for `/api/rsvp` and `/api/gift`.
+7. Review payload limits, duplicate submissions, and server logs without exposing private guest data.
+8. Confirm the restored payment QR scans to the intended receiving account.
+
+## After RSVP and gift verification
+9. Build admin authentication and Admin Dashboard.
+10. Add gift review/approval and guest-wishes moderation.
+11. Add public display of approved wishes only.
+12. Test mobile/desktop and merge to main only after owner approval.
