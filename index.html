@@ -93,13 +93,57 @@
 
     @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+  
+    .brand-logo{display:block;width:118px;height:118px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 5px 18px #0005)}
+    .footer-logo{display:block;width:76px;height:76px;object-fit:contain;margin:0 auto 8px}
+    .envelope-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;padding:24px;background:var(--navy2);color:#fff;isolation:isolate;transition:opacity .9s ease,visibility .9s ease}
+    .envelope-intro:before{content:"";position:absolute;inset:-18px;z-index:-2;background:url("gallery/photo-19.png") center/cover no-repeat;filter:blur(7px);transform:scale(1.06);opacity:.56}
+    .envelope-intro:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(145deg,#08152bd9,#142b55c9 55%,#08152be8)}
+    .envelope-intro.is-dismissed{opacity:0;visibility:hidden;pointer-events:none}
+    .envelope-content{width:min(100%,420px);text-align:center}
+    .envelope-kicker{margin:0 0 10px;color:var(--champagne);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase}
+    .envelope-title{margin:0 0 25px;color:#fff;font:500 clamp(1.65rem,6vw,2.25rem)/1.45 "Noto Serif Thai",serif}
+    .envelope{position:relative;width:min(78vw,300px);height:190px;margin:0 auto 28px;perspective:900px;filter:drop-shadow(0 18px 28px #0007)}
+    .envelope-back{position:absolute;inset:0;border:1px solid #d8c49a;background:linear-gradient(145deg,#233e6b,#10254a);border-radius:8px}
+    .envelope-pocket{position:absolute;inset:0;clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);background:linear-gradient(145deg,#1c3762,#0b1c39);border:1px solid #b99a62;border-radius:8px}
+    .envelope-flap{position:absolute;inset:0 0 auto;height:100%;background:linear-gradient(145deg,#2a4774,#172e55);clip-path:polygon(0 0,100% 0,50% 59%);transform-origin:top;transition:transform .9s ease;z-index:3}
+    .envelope-seal{position:absolute;z-index:4;left:50%;top:49%;transform:translate(-50%,-50%);width:84px;height:84px;display:grid;place-items:center;border:1px solid #d7bd86;border-radius:50%;background:#142b55;box-shadow:0 4px 15px #0004;transition:opacity .35s ease}
+    .envelope-seal img{width:68px;height:68px;object-fit:contain}
+    .envelope-intro.is-opening .envelope-flap{transform:rotateX(180deg)}
+    .envelope-intro.is-opening .envelope-seal{opacity:0}
+    .envelope-card{position:absolute;z-index:2;left:8%;right:8%;top:18px;height:155px;padding:16px 10px;background:#fbfaf7;border:1px solid var(--gold);border-radius:5px;color:var(--navy);display:grid;place-items:center;transform:translateY(0);transition:transform 1s ease .2s}
+    .envelope-card img{width:82px;height:82px;object-fit:contain}
+    .envelope-intro.is-opening .envelope-card{transform:translateY(-105px)}
+    .envelope-open-button{min-height:48px;padding:11px 28px;border:1px solid var(--champagne);border-radius:999px;background:var(--gold);color:#17243a;font:500 1rem "IBM Plex Sans Thai",sans-serif;cursor:pointer;box-shadow:0 8px 24px #0003;transition:transform .2s,filter .2s}
+    .envelope-open-button:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    .envelope-open-button:disabled{opacity:.75;cursor:default}
+    .envelope-hint{margin:14px 0 0;color:#e9e2d4;font-size:.82rem}
+    @media(prefers-reduced-motion:reduce){.envelope-intro,.envelope-flap,.envelope-seal,.envelope-card{transition-duration:.01ms!important}.envelope-open-button{transition:none}}
+
   </style>
 </head>
 <body>
+
+<div class="envelope-intro" id="envelopeIntro" role="dialog" aria-modal="true" aria-label="เปิดซองจดหมายเชิญงานแต่งงาน">
+  <div class="envelope-content">
+    <p class="envelope-kicker">The Wedding Celebration</p>
+    <h2 class="envelope-title">You Are Invited</h2>
+    <div class="envelope" aria-hidden="true">
+      <div class="envelope-back"></div>
+      <div class="envelope-card"><img src="gallery/gallerynd-logo-white.png" alt=""></div>
+      <div class="envelope-flap"></div>
+      <div class="envelope-pocket"></div>
+      <div class="envelope-seal"><img src="gallery/gallerynd-logo-white.png" alt=""></div>
+    </div>
+    <button class="envelope-open-button" id="openEnvelope" type="button">เปิดซองจดหมาย</button>
+    <p class="envelope-hint">ขอเชิญร่วมเป็นส่วนหนึ่งในวันสำคัญของเรา</p>
+  </div>
+</div>
+
 <main class="shell">
   <header class="hero">
     <div class="hero-inner">
-      <div class="monogram" aria-label="ND monogram">ND</div>
+      <img class="brand-logo" src="gallery/gallerynd-logo-white.png" alt="โลโก้ ND">
       <p class="eyebrow">The Wedding Celebration</p>
       <h1>Duangmanee <span class="amp">&amp;</span> Udorn</h1>
       <p class="thai-names">นางสาวดวงมณี ชาตรี &nbsp;·&nbsp; นายอุดร ชาตรี</p>
@@ -316,8 +360,29 @@
       </form>
     </div>
   </section>
-  <footer><strong>ND</strong><br>ND THE WEDDING · 05.12.2026<br><span>ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</span></footer>
+  <footer><img class="footer-logo" src="gallery/gallerynd-logo-white.png" alt="โลโก้ ND"><br>ND THE WEDDING · 05.12.2026<br><span>ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</span></footer>
 </main>
+
+
+  <script>
+    (function(){
+      const intro=document.getElementById('envelopeIntro');
+      const button=document.getElementById('openEnvelope');
+      if(!intro||!button)return;
+      button.addEventListener('click',()=>{
+        if(button.disabled)return;
+        button.disabled=true;
+        button.textContent='กำลังเปิดซอง...';
+        intro.classList.add('is-opening');
+        const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.setTimeout(()=>{
+          intro.classList.add('is-dismissed');
+          document.body.style.overflow='';
+          window.setTimeout(()=>intro.remove(),reduced?50:950);
+        },reduced?100:1450);
+      });
+    })();
+  </script>
 
   <script>
     (function(){
