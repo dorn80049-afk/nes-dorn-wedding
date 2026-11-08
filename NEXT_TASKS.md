@@ -1,19 +1,21 @@
 # Next Tasks
 
-## Immediate deployment configuration
-1. Add `SUPABASE_URL` and `SUPABASE_ANON_KEY` to Vercel Project Settings → Environment Variables for Preview (and Production only when ready).
-2. Redeploy the preview deployment after setting the variables.
-3. Test RSVP with each allowed attendance value: `attending`, `not_attending`, `online_gift`.
-4. Verify each submission appears in the existing Supabase `rsvps` table and admin-only SELECT remains enforced.
-5. Test gift/slip upload separately; confirm a row in `wedding_gifts` and a private file in Drive `SLIPS 2026`.
+## Immediate — Google Sheets setup
+1. Follow SETUP_GOOGLE_SHEETS.md and create the Apps Script project from apps-script/Code.gs.
+2. Set Script Properties API_SECRET and SLIPS_FOLDER_ID.
+3. Run setupWeddingSheets() once and keep the resulting spreadsheet private.
+4. Deploy Apps Script as Web App (Execute as Me; access Anyone) and copy the /exec URL.
+5. Set GOOGLE_APPS_SCRIPT_URL and GOOGLE_APPS_SCRIPT_SECRET in Vercel Preview.
+6. Redeploy Preview.
 
-## Security before public launch
-6. Add Vercel Firewall/WAF rate limiting or another server-side abuse-control mechanism for `/api/rsvp` and `/api/gift`.
-7. Review payload limits, duplicate submissions, and server logs without exposing private guest data.
-8. Confirm the restored payment QR scans to the intended receiving account.
+## Verification
+7. Test RSVP values attending, not_attending, online_gift using test-only data.
+8. Test gift upload with a non-sensitive sample file; confirm a GIFTS row and private Drive file.
+9. Confirm failed/invalid submissions do not create rows.
+10. Test mobile and desktop forms.
 
-## After RSVP and gift verification
-9. Build admin authentication and Admin Dashboard.
-10. Add gift review/approval and guest-wishes moderation.
-11. Add public display of approved wishes only.
-12. Test mobile/desktop and merge to main only after owner approval.
+## Security / production
+11. Add Vercel Firewall/WAF rate limiting for /api/rsvp and /api/gift.
+12. Limit spreadsheet and Drive folder access to authorized hosts only.
+13. Confirm payment QR destination with the receiving account owner.
+14. Configure Production variables and merge to main only after owner approval and successful tests.
