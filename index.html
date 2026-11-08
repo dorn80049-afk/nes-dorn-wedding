@@ -94,11 +94,11 @@
     @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
   
-    .brand-logo{display:block;width:118px;height:118px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 5px 18px #0005)}
+    .brand-logo{display:block;width:148px;height:148px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 5px 18px #0005)}
     .footer-logo{display:block;width:76px;height:76px;object-fit:contain;margin:0 auto 8px}
     .envelope-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;padding:24px;background:var(--navy2);color:#fff;isolation:isolate;transition:opacity .9s ease,visibility .9s ease}
-    .envelope-intro:before{content:"";position:absolute;inset:-18px;z-index:-2;background:url("gallery/photo-19.png") center/cover no-repeat;filter:blur(7px);transform:scale(1.06);opacity:.56}
-    .envelope-intro:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(145deg,#08152bd9,#142b55c9 55%,#08152be8)}
+    .envelope-intro:before{content:"";position:absolute;inset:-18px;z-index:-2;background:url("gallery/photo-19.png") center 35%/cover no-repeat;filter:blur(2.5px);transform:scale(1.04);opacity:.72}
+    .envelope-intro:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(145deg,#08152b99,#142b5588 55%,#08152bb0)}
     .envelope-intro.is-dismissed{opacity:0;visibility:hidden;pointer-events:none}
     .envelope-content{width:min(100%,420px);text-align:center}
     .envelope-kicker{margin:0 0 10px;color:var(--champagne);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase}
@@ -337,18 +337,10 @@
             <label for="giftName">ชื่อ–นามสกุล *</label>
             <input id="giftName" name="full_name" autocomplete="name" maxlength="150" required>
           </div>
-          <div class="gift-field">
-            <label for="giftPhone">เบอร์โทรศัพท์ *</label>
-            <input id="giftPhone" name="phone" type="tel" autocomplete="tel" maxlength="30" required>
-          </div>
         </div>
         <div class="gift-field">
           <label for="giftAmount">จำนวนเงินที่ร่วมแสดงความยินดี (บาท) *</label>
           <input id="giftAmount" name="amount" type="number" min="1" step="0.01" inputmode="decimal" required>
-        </div>
-        <div class="gift-field">
-          <label for="giftMessage">ข้อความอวยพรคู่บ่าวสาว</label>
-          <textarea id="giftMessage" name="message" rows="3" maxlength="1000" placeholder="เขียนคำอวยพรได้ที่นี่"></textarea>
         </div>
         <div class="gift-field">
           <label for="giftSlip">แนบหลักฐานการโอนเงิน (Slip) *</label>
@@ -578,9 +570,7 @@
         try{
           const payload={
             full_name:document.getElementById('giftName').value.trim(),
-            phone:document.getElementById('giftPhone').value.trim(),
             amount:Number(document.getElementById('giftAmount').value),
-            message:document.getElementById('giftMessage').value.trim(),
             file:{base64:await fileToBase64(file),mimeType:file.type}
           };
           const response=await fetch('/api/gift',{
