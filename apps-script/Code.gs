@@ -22,7 +22,7 @@ const RSVP_HEADERS = [
 ];
 const GIFT_HEADERS = [
   "Timestamp", "Full name", "Phone", "Amount (THB)",
-  "Message", "Slip file name", "Slip file ID", "Slip MIME type", "Slip size (bytes)"
+  "Message", "Slip file name", "Slip file ID", "Slip MIME type", "Slip size (bytes)", "Slip link"
 ];
 
 function setupWeddingSheets() {
@@ -147,7 +147,7 @@ function saveGift_(spreadsheet, body) {
   if (!sheet) throw new Error("ไม่พบชีต GIFTS กรุณารัน setupWeddingSheets()");
   sheet.appendRow([
     new Date(), safeCell_(name), safeCell_(phone), amount,
-    safeCell_(message), fileName, driveFile.getId(), mimeType, bytes.length
+    safeCell_(message), fileName, driveFile.getId(), mimeType, bytes.length, driveFile.getUrl()
   ]);
   return json_({ success: true });
 }
@@ -158,6 +158,17 @@ function ensureSheet_(spreadsheet, name, headers) {
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
+    return;
+  }
+
+  // Add newly introduced columns to existing sheets without disturbing saved records.
+  const existingWidth = Math.max(sheet.getLastColumn(), 1);
+  const existingHeaders = sheet.getRange(1, 1, 1, existingWidth).getValues()[0].map(String);
+  const missingHeaders = headers.filter(header => !existingHeaders.includes(header));
+  if (missingHeaders.length) {
+    const startColumn = existingWidth + 1;
+    sheet.getRange(1, startColumn, 1, missingHeaders.length).setValues([missingHeaders]);
+    sheet.getRange(1, startColumn, 1, missingHeaders.length).setFontWeight("bold");
   }
 }
 
