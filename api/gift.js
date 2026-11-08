@@ -1,7 +1,4 @@
-// Vercel serverless proxy for the existing ND THE WEDDING Apps Script.
-// Keeps the browser request same-origin and avoids exposing Supabase credentials.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbza6k2TVgItHTcjksITh4zj1Nre6c6annYUqtnq4sMIIenQPNqG0-yHP8dGYqGl1EaFLQ/exec";
-
+// Vercel serverless endpoint for private slip upload + Google Sheets record.
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -10,55 +7,64 @@ export default async function handler(req, res) {
 
   try {
     const data = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-    if (!data || typeof data !== "object") {
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
       return res.status(400).json({ success: false, message: "Invalid request body" });
     }
-    const fullName = String(data.full_name || "").trim();
+
+    const full_name = String(data.full_name || "").trim();
     const phone = String(data.phone || "").trim();
     const amount = Number(data.amount);
     const message = String(data.message || "").trim();
     const file = data.file || {};
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
-    if (!fullName || !phone || !Number.isFinite(amount) || amount <= 0 ||
-        !file.base64 || !file.mimeType) {
+    if (!full_name || !phone || !Number.isFinite(amount) || amount <= 0 ||
+        !file.base64 || !allowedTypes.includes(String(file.mimeType || ""))) {
       return res.status(400).json({ success: false, message: "กรุณากรอกข้อมูลและแนบสลิปให้ครบถ้วน" });
     }
-    if (fullName.length > 150 || phone.length > 30 || message.length > 1000) {
+    if (full_name.length > 150 || phone.length > 30 || message.length > 1000) {
       return res.status(400).json({ success: false, message: "ข้อมูลมีความยาวเกินกำหนด" });
     }
     if (typeof file.base64 !== "string" || file.base64.length > 4_300_000) {
       return res.status(413).json({ success: false, message: "ไฟล์มีขนาดใหญ่เกินไป กรุณาใช้ไฟล์ไม่เกิน 3 MB" });
     }
 
-    const upstream = await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        full_name: fullName,
-        phone,
-        amount,
-        message,
-        file: { base64: file.base64, mimeType: String(file.mimeType) }
-      }),
-      redirect: "follow"
+    const result = await sendToWeddingSheets({
+      action: "gift",
+      full_name,
+      phone,
+      amount,
+      message,
+      file: { base64: file.base64, mimeType: String(file.mimeType) }
     });
 
-    const raw = await upstream.text();
-    let result;
-    try { result = JSON.parse(raw); }
-    catch (_) { throw new Error("Apps Script ส่งผลลัพธ์ที่ไม่ใช่ JSON กลับมา"); }
-
-    if (!upstream.ok || !result.success) {
-      return res.status(502).json({
-        success: false,
-        message: result.message || "Apps Script ไม่สามารถบันทึกข้อมูลได้"
-      });
+    if (!result.success) {
+      return res.status(502).json({ success: false, message: result.message || "ไม่สามารถบันทึกข้อมูลได้" });
     }
-    return res.status(200).json(result);
+    return res.status(200).json({ success: true, message: "ส่งข้อมูลและหลักฐานเรียบร้อยแล้ว" });
   } catch (error) {
-    return res.status(502).json({
-      success: false,
-      message: error.message || "ไม่สามารถเชื่อมต่อบริการอัปโหลดได้"
-    });
+    return res.status(502).json({ success: false, message: error.message || "ไม่สามารถเชื่อมต่อระบบจัดเก็บข้อมูลได้" });
   }
+}
+
+async function sendToWeddingSheets(payload) {
+  const url = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const secret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
+  if (!url || !secret) {
+    throw new Error("เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า Google Sheets");
+  }
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...payload, secret }),
+    redirect: "follow"
+  });
+  const raw = await response.text();
+  let result;
+  try { result = JSON.parse(raw); }
+  catch (_) { throw new Error("Google Apps Script ส่งผลลัพธ์ไม่ถูกต้อง"); }
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Google Sheets ไม่สามารถบันทึกข้อมูลได้");
+  }
+  return result;
 }
