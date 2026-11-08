@@ -104,7 +104,7 @@ function saveGift_(spreadsheet, body) {
   const mimeType = String(file.mimeType || "");
   const allowed = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
-  if (!name || !phone || !Number.isFinite(amount) || amount <= 0 ||
+  if (!name || !Number.isFinite(amount) || amount <= 0 ||
       !file.base64 || !allowed.includes(mimeType)) {
     return json_({ success: false, message: "ข้อมูลของขวัญหรือไฟล์สลิปไม่ถูกต้อง" });
   }
