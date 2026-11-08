@@ -484,7 +484,7 @@
       let active=slideA;
       let inactive=slideB;
       let timer=null;
-      let playing=!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let playing=true;
       function render(index){
         current=(index+photos.length)%photos.length;
         const photo=photos[current];
