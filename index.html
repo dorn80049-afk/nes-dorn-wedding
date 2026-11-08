@@ -130,6 +130,12 @@
     .envelope-hint{margin:14px 0 0;color:#e9e2d4;font-size:.82rem}
     @media(prefers-reduced-motion:reduce){.envelope-intro,.envelope-flap,.envelope-seal,.envelope-card{transition-duration:.01ms!important}.envelope-open-button{transition:none}}
 
+
+    .music-toggle{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid var(--champagne);border-radius:999px;background:#142b55ee;color:#f7ecd5;font:500 .88rem "IBM Plex Sans Thai",sans-serif;box-shadow:0 8px 24px #08152b44;cursor:pointer;backdrop-filter:blur(8px);transition:transform .2s,background .2s}
+    .music-toggle:hover{transform:translateY(-2px);background:#203d70}
+    .music-toggle .music-icon{font-size:1rem;line-height:1}
+    .music-toggle[hidden]{display:none}
+    @media(max-width:520px){.music-toggle{right:12px;bottom:12px;min-height:42px;padding:9px 13px;font-size:.82rem}}
   </style>
 </head>
 <body>
@@ -149,6 +155,13 @@
     <p class="envelope-hint">ขอเชิญร่วมเป็นส่วนหนึ่งในวันสำคัญของเรา</p>
   </div>
 </div>
+
+<audio id="weddingMusic" preload="none" loop>
+  <source src="gallery/gallerywedding-music.aac" type="audio/aac">
+</audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="เปิดเพลง" aria-pressed="false" hidden>
+  <span class="music-icon" aria-hidden="true">♫</span><span id="musicToggleText">เปิดเพลง</span>
+</button>
 
 <main class="shell">
   <header class="hero">
@@ -386,11 +399,30 @@
     (function(){
       const intro=document.getElementById('envelopeIntro');
       const button=document.getElementById('openEnvelope');
+      const music=document.getElementById('weddingMusic');
+      const musicToggle=document.getElementById('musicToggle');
+      const musicToggleText=document.getElementById('musicToggleText');
       if(!intro||!button)return;
+      function updateMusicButton(playing){
+        if(!musicToggle||!musicToggleText)return;
+        musicToggle.hidden=false;
+        musicToggleText.textContent=playing?'ปิดเพลง':'เปิดเพลง';
+        musicToggle.setAttribute('aria-label',playing?'ปิดเพลง':'เปิดเพลง');
+        musicToggle.setAttribute('aria-pressed',playing?'true':'false');
+      }
+      if(music&&musicToggle){
+        music.addEventListener('play',()=>updateMusicButton(true));
+        music.addEventListener('pause',()=>updateMusicButton(false));
+        musicToggle.addEventListener('click',async()=>{
+          if(music.paused){try{await music.play();}catch(error){updateMusicButton(false);}}
+          else music.pause();
+        });
+      }
       button.addEventListener('click',()=>{
         if(button.disabled)return;
         button.disabled=true;
         button.textContent='กำลังเปิดซอง...';
+        if(music){music.volume=0.65;music.play().then(()=>updateMusicButton(true)).catch(()=>updateMusicButton(false));}
         intro.classList.add('is-opening');
         const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         window.setTimeout(()=>{
