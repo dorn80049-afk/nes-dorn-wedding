@@ -21,6 +21,30 @@
     .section{padding:64px 28px;text-align:center}.section+.section{border-top:1px solid var(--line)}.section h2{font:500 clamp(1.5rem,5vw,2.1rem)/1.4 "Noto Serif Thai",serif;color:var(--navy);margin:0 0 8px}.sub{color:var(--muted);margin:0 auto 26px;max-width:620px}.kicker{font-size:.72rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin:0 0 8px}
     .invitation{max-width:690px;margin:24px auto 0;padding:28px;border:1px solid var(--line);background:#fff;border-radius:18px}.invitation p{margin:6px 0}.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}.family{padding:18px;background:#faf8f3;border-radius:12px}.family strong{display:block;color:var(--navy);margin-bottom:6px}
     .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:760px;margin:30px auto 0}.card-frame{background:#fff;border:1px solid var(--line);padding:10px;border-radius:14px;box-shadow:0 10px 28px #17243a10}.card-frame img{display:block;width:100%;height:auto;min-height:260px;object-fit:contain;border-radius:8px;background:#f2f0eb}.missing{min-height:260px;display:grid;place-items:center;padding:20px;color:var(--muted);background:#f6f3ed;border-radius:8px;font-size:.9rem}
+    .media-section{background:#f7f5f0}
+    .video-frame{max-width:720px;margin:28px auto 0;padding:10px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 12px 30px #17243a12}
+    .video-frame video{display:block;width:100%;max-height:480px;background:#101827;border-radius:11px}
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:760px;margin:28px auto 20px}
+    .gallery-grid button{display:block;padding:0;border:0;border-radius:12px;overflow:hidden;background:#e9e6df;cursor:zoom-in;aspect-ratio:4/5}
+    .gallery-grid img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
+    .gallery-grid button:hover img{transform:scale(1.04)}
+    .gallery-grid button:nth-child(n+5){display:none}
+    .gallery-grid.expanded button:nth-child(n+5){display:block}
+    .gallery-toggle{border:1px solid var(--gold);background:transparent;color:var(--navy);cursor:pointer}
+    .gallery-dialog{width:min(92vw,900px);max-width:none;padding:12px;border:1px solid var(--gold);border-radius:16px;background:#101827;box-shadow:0 24px 70px #0008}
+    .gallery-dialog::backdrop{background:#081326dd}
+    .gallery-dialog img{display:block;max-width:100%;max-height:78vh;margin:auto;object-fit:contain}
+    .gallery-dialog button{display:block;margin:10px 0 0 auto;border:1px solid #d7c29b;border-radius:999px;padding:7px 18px;background:transparent;color:#fff;cursor:pointer}
+    .bank-card{max-width:420px;margin:18px auto 24px;padding:17px 18px;border:1px solid #e1d8ed;border-radius:14px;background:linear-gradient(135deg,#fff 0%,#f7f2ff 100%);text-align:left}
+    .bank-brand{display:flex;align-items:center;gap:10px;color:#4b2b78;font-weight:700}
+    .bank-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#5b2c83;color:#fff;font-weight:700;letter-spacing:.02em}
+    .bank-name{font-size:.82rem;color:var(--muted)}
+    .bank-owner{margin:13px 0 2px;font-size:.88rem;color:var(--muted)}
+    .bank-number-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .bank-number{font:600 1.35rem Georgia,serif;letter-spacing:.07em;color:#302342}
+    .copy-account{padding:7px 13px;border:1px solid #6a478d;border-radius:999px;background:#fff;color:#4b2b78;font:500 .84rem inherit;cursor:pointer}
+    .copy-account:focus-visible,.gallery-toggle:focus-visible,.gallery-grid button:focus-visible{outline:3px solid #b99a62;outline-offset:3px}
+    @media(max-width:600px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.video-frame{padding:7px}.bank-number{font-size:1.2rem}}
     .schedule{max-width:600px;margin:28px auto 0;text-align:left}.event{display:grid;grid-template-columns:105px 1fr;gap:18px;padding:17px 0;border-bottom:1px solid var(--line)}.event time{font:600 1.05rem Georgia,serif;color:var(--gold)}.event strong{display:block;color:var(--navy);font-weight:600}.event span{font-size:.92rem;color:var(--muted)}
     .dress-code{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:8px}.dress-color{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-size:.84rem}.dress-dot{width:15px;height:15px;border-radius:50%;display:inline-block;border:1px solid #0002}.dress-dot.navy{background:#142b55}.dress-dot.blue{background:#8fb8df}.dress-dot.cream{background:#f2e7d2}
     .venue{max-width:640px;margin:24px auto 0;padding:28px 20px;background:#fff;border:1px solid var(--line);border-radius:16px}.venue-address{font-size:1.05rem;color:var(--navy);margin:0 0 18px}.map{width:100%;height:300px;border:0;border-radius:12px;background:#ececec;margin-top:20px}
@@ -93,6 +117,49 @@
       <figure class="card-frame"><img src="card2.png" alt="การ์ดเชิญงานแต่งงาน หน้า 2" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'missing',textContent:'รออัปโหลดภาพการ์ดเชิญหน้า 2 (card2.png)'}))"></figure>
     </div>
   </section>
+
+  <section class="section media-section" id="video">
+    <p class="kicker">Our Story</p>
+    <h2>เรื่องราวของเรา</h2>
+    <p class="sub">เก็บช่วงเวลาพิเศษนี้ไว้ แล้วมาร่วมยินดีกับเราในวันสำคัญ</p>
+    <div class="video-frame">
+      <video controls playsinline preload="metadata">
+        <source src="gallery/Video.MP4" type="video/mp4">
+        เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ
+      </video>
+    </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <p class="kicker">Our Memories</p>
+    <h2>ภาพแห่งความทรงจำ</h2>
+    <p class="sub">ภาพความทรงจำของเรา คัดแสดงอย่างเรียบง่าย ไม่ให้หน้าเว็บดูแน่นจนเกินไป</p>
+    <div class="gallery-grid" id="galleryGrid">
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 1" data-full="gallery/photo-01.jpg"><img src="gallery/photo-01.jpg" alt="ภาพความทรงจำ 1" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 2" data-full="gallery/photo-02.jpg"><img src="gallery/photo-02.jpg" alt="ภาพความทรงจำ 2" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 3" data-full="gallery/photo-03.jpg"><img src="gallery/photo-03.jpg" alt="ภาพความทรงจำ 3" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 4" data-full="gallery/photo-04.jpg"><img src="gallery/photo-04.jpg" alt="ภาพความทรงจำ 4" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 5" data-full="gallery/photo-05.jpg"><img src="gallery/photo-05.jpg" alt="ภาพความทรงจำ 5" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 6" data-full="gallery/photo-06.jpg"><img src="gallery/photo-06.jpg" alt="ภาพความทรงจำ 6" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 7" data-full="gallery/photo-07.jpg"><img src="gallery/photo-07.jpg" alt="ภาพความทรงจำ 7" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 8" data-full="gallery/photo-08.jpg"><img src="gallery/photo-08.jpg" alt="ภาพความทรงจำ 8" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 9" data-full="gallery/photo-09.jpg"><img src="gallery/photo-09.jpg" alt="ภาพความทรงจำ 9" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 10" data-full="gallery/photo-10.jpg"><img src="gallery/photo-10.jpg" alt="ภาพความทรงจำ 10" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 11" data-full="gallery/photo-11.jpg"><img src="gallery/photo-11.jpg" alt="ภาพความทรงจำ 11" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 12" data-full="gallery/photo-12.jpg"><img src="gallery/photo-12.jpg" alt="ภาพความทรงจำ 12" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 13" data-full="gallery/photo-13.jpg"><img src="gallery/photo-13.jpg" alt="ภาพความทรงจำ 13" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 14" data-full="gallery/photo-14.jpg"><img src="gallery/photo-14.jpg" alt="ภาพความทรงจำ 14" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 15" data-full="gallery/photo-15.jpg"><img src="gallery/photo-15.jpg" alt="ภาพความทรงจำ 15" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 16" data-full="gallery/photo-16.jpg"><img src="gallery/photo-16.jpg" alt="ภาพความทรงจำ 16" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 17" data-full="gallery/photo-17.jpg"><img src="gallery/photo-17.jpg" alt="ภาพความทรงจำ 17" loading="lazy"></button>
+      <button type="button" aria-label="เปิดดูภาพความทรงจำ 18" data-full="gallery/photo-18.jpg"><img src="gallery/photo-18.jpg" alt="ภาพความทรงจำ 18" loading="lazy"></button>
+    </div>
+    <button class="btn gallery-toggle" id="galleryToggle" type="button" aria-expanded="false">ดูภาพทั้งหมด 18 ภาพ</button>
+  </section>
+  <dialog class="gallery-dialog" id="galleryDialog" aria-label="ภาพความทรงจำ">
+    <img id="galleryDialogImage" alt="ภาพความทรงจำขนาดใหญ่">
+    <button type="button" id="galleryDialogClose">ปิดภาพ</button>
+  </dialog>
 
   <section class="section" id="schedule">
     <p class="kicker">Save the date</p>
@@ -172,6 +239,17 @@
         <img src="qr-payment.png" alt="QR Code รับเงิน" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'qr-placeholder',textContent:'รอใส่ QR Code รับเงินที่ยืนยันแล้ว'}))">
         <small>QR Code รับเงินร่วมแสดงความยินดี</small>
       </div>
+      <div class="bank-card">
+        <div class="bank-brand"><span class="bank-mark">SCB</span><span>ธนาคารไทยพาณิชย์ <span class="bank-name">· Siam Commercial Bank</span></span></div>
+        <p class="bank-owner">ชื่อบัญชี</p>
+        <strong>นางสาวดวงมณี ประพาฬ</strong>
+        <p class="bank-owner">เลขที่บัญชี</p>
+        <div class="bank-number-row">
+          <span class="bank-number">406-0-611675</span>
+          <button class="copy-account" id="copyAccount" type="button" data-account="4060611675">คัดลอกเลขบัญชี</button>
+        </div>
+        <p class="privacy-note" id="copyAccountStatus" aria-live="polite">กรุณาตรวจสอบชื่อบัญชีก่อนยืนยันการโอนเงิน</p>
+      </div>
       <form id="giftForm">
         <div class="gift-grid">
           <div class="gift-field">
@@ -205,6 +283,47 @@
 </main>
 
   <script>
+    (function(){
+      const toggle=document.getElementById('galleryToggle');
+      const grid=document.getElementById('galleryGrid');
+      const dialog=document.getElementById('galleryDialog');
+      const dialogImage=document.getElementById('galleryDialogImage');
+      const closeDialog=document.getElementById('galleryDialogClose');
+      if(toggle&&grid){
+        toggle.addEventListener('click',()=>{
+          const expanded=grid.classList.toggle('expanded');
+          toggle.setAttribute('aria-expanded',String(expanded));
+          toggle.textContent=expanded?'แสดงภาพน้อยลง':'ดูภาพทั้งหมด 18 ภาพ';
+        });
+      }
+      if(grid&&dialog&&dialogImage){
+        grid.addEventListener('click',(event)=>{
+          const button=event.target.closest('button[data-full]');
+          if(!button)return;
+          dialogImage.src=button.dataset.full;
+          if(typeof dialog.showModal==='function')dialog.showModal();
+          else window.open(button.dataset.full,'_blank','noopener');
+        });
+        closeDialog.addEventListener('click',()=>dialog.close());
+        dialog.addEventListener('click',(event)=>{if(event.target===dialog)dialog.close();});
+        dialog.addEventListener('close',()=>{dialogImage.removeAttribute('src');});
+      }
+    })();
+    (function(){
+      const button=document.getElementById('copyAccount');
+      const status=document.getElementById('copyAccountStatus');
+      if(!button)return;
+      button.addEventListener('click',async()=>{
+        const account=button.dataset.account;
+        try{
+          await navigator.clipboard.writeText(account);
+          status.textContent='คัดลอกเลขบัญชีเรียบร้อยแล้ว';
+          button.textContent='คัดลอกแล้ว';
+        }catch(error){
+          status.textContent='ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาคัดลอกเลขบัญชี 4060611675';
+        }
+      });
+    })();
     (function(){
       const form=document.getElementById('rsvpForm');
       if(!form) return;
