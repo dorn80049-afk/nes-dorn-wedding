@@ -12,17 +12,15 @@ export default async function handler(req, res) {
     }
 
     const full_name = String(data.full_name || "").trim();
-    const phone = String(data.phone || "").trim();
     const amount = Number(data.amount);
-    const message = String(data.message || "").trim();
     const file = data.file || {};
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
-    if (!full_name || !phone || !Number.isFinite(amount) || amount <= 0 ||
+    if (!full_name || !Number.isFinite(amount) || amount <= 0 ||
         !file.base64 || !allowedTypes.includes(String(file.mimeType || ""))) {
       return res.status(400).json({ success: false, message: "กรุณากรอกข้อมูลและแนบสลิปให้ครบถ้วน" });
     }
-    if (full_name.length > 150 || phone.length > 30 || message.length > 1000) {
+    if (full_name.length > 150) {
       return res.status(400).json({ success: false, message: "ข้อมูลมีความยาวเกินกำหนด" });
     }
     if (typeof file.base64 !== "string" || file.base64.length > 4_300_000) {
@@ -32,9 +30,9 @@ export default async function handler(req, res) {
     const result = await sendToWeddingSheets({
       action: "gift",
       full_name,
-      phone,
+      phone: "",
       amount,
-      message,
+      message: "",
       file: { base64: file.base64, mimeType: String(file.mimeType) }
     });
 
