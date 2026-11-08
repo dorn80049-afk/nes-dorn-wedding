@@ -475,10 +475,12 @@
       const next=document.getElementById('storyNext');
       const play=document.getElementById('storyPlay');
       if(!gallery||!stage||!slideA||!slideB||!counter||!prev||!next||!play)return;
-      const photos=Array.from(gallery.querySelectorAll('button[data-full]')).map((button)=>({
+      const allPhotos=Array.from(gallery.querySelectorAll('button[data-full]')).map((button)=>({
         src:button.dataset.full,
         alt:button.querySelector('img')?.alt||'ภาพความทรงจำของเรา'
       }));
+      const photoOrder=[19,12,4,9,10,1,3,5,6,7,15,12,14,16,15,13,17,18,8,20];
+      const photos=photoOrder.map(number=>allPhotos[number-1]).filter(Boolean);
       if(!photos.length)return;
       let current=0;
       let active=slideA;
