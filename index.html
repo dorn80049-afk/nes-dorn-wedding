@@ -17,6 +17,15 @@
     .hero:before,.hero:after{content:"";position:absolute;z-index:-1;border:1px solid #c6a96d66;border-radius:50%;width:300px;height:300px}.hero:before{top:-210px;left:-140px}.hero:after{right:-170px;bottom:-210px}
     .hero-inner{max-width:650px}.monogram{width:104px;height:104px;margin:0 auto 18px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--champagne);font:italic 3.1rem Georgia,serif;letter-spacing:-.1em;padding-right:.12em}
     .eyebrow{font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne);margin:0 0 12px}.hero h1{font:500 clamp(2.8rem,9vw,5rem)/1.2 Georgia,"Noto Serif Thai",serif;margin:0}.amp{color:var(--gold);font-style:italic}.hero .thai-names{margin:18px 0 0;font-size:1.05rem;color:#f1eee8}.rule{width:90px;height:1px;background:var(--gold);margin:24px auto}.date{font:400 clamp(1.45rem,5vw,2.2rem) Georgia,serif;letter-spacing:.12em;color:#fff}.date-th{margin:5px 0 0;color:#e6dfd2}.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+    .countdown{max-width:510px;margin:30px auto 0;padding:17px 18px 15px;border:1px solid #c6a96d88;border-radius:18px;background:linear-gradient(135deg,#ffffff12,#ffffff06);backdrop-filter:blur(5px)}
+    .countdown-label{margin:0 0 12px;color:var(--champagne);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase}
+    .countdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+    .countdown-unit{padding:10px 5px 8px;border:1px solid #e8d8b833;border-radius:12px;background:#07152a55}
+    .countdown-value{display:block;color:#fff;font:500 clamp(1.65rem,5vw,2.35rem)/1.1 Georgia,serif;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+    .countdown-caption{display:block;margin-top:6px;color:#e8d8b8;font-size:.7rem;letter-spacing:.08em}
+    .countdown-message{margin:12px 0 0;color:#f3ead8;font-size:.82rem}
+    @media(max-width:420px){.countdown{padding:14px 10px}.countdown-grid{gap:6px}.countdown-unit{padding:9px 2px}.countdown-caption{font-size:.63rem}}
+
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--gold);font-weight:500;transition:.2s}.btn-primary{background:var(--gold);color:#171f2d}.btn-outline{color:#fff;background:transparent}.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
     .section{padding:64px 28px;text-align:center}.section+.section{border-top:1px solid var(--line)}.section h2{font:500 clamp(1.5rem,5vw,2.1rem)/1.4 "Noto Serif Thai",serif;color:var(--navy);margin:0 0 8px}.sub{color:var(--muted);margin:0 auto 26px;max-width:620px}.kicker{font-size:.72rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin:0 0 8px}
     .invitation{max-width:690px;margin:24px auto 0;padding:28px;border:1px solid var(--line);background:#fff;border-radius:18px}.invitation p{margin:6px 0}.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}.family{padding:18px;background:#faf8f3;border-radius:12px}.family strong{display:block;color:var(--navy);margin-bottom:6px}
@@ -88,6 +97,16 @@
       <div class="rule"></div>
       <p class="date">05 · 12 · 2026</p>
       <p class="date-th">วันเสาร์ที่ ๕ ธันวาคม ๒๕๖๙</p>
+      <div class="countdown" aria-label="นับถอยหลังสู่งานแต่งงาน">
+        <p class="countdown-label">Counting down to our wedding</p>
+        <div class="countdown-grid">
+          <div class="countdown-unit"><span class="countdown-value" id="countDays">--</span><span class="countdown-caption">วัน</span></div>
+          <div class="countdown-unit"><span class="countdown-value" id="countHours">--</span><span class="countdown-caption">ชั่วโมง</span></div>
+          <div class="countdown-unit"><span class="countdown-value" id="countMinutes">--</span><span class="countdown-caption">นาที</span></div>
+          <div class="countdown-unit"><span class="countdown-value" id="countSeconds">--</span><span class="countdown-caption">วินาที</span></div>
+        </div>
+        <p class="countdown-message" id="countdownMessage">อีกไม่นาน เราจะได้พบกันในวันพิเศษ</p>
+      </div>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#details">รายละเอียดงาน</a>
         <a class="btn btn-outline" href="#rsvp">ตอบรับ / ส่งความยินดี</a>
@@ -283,6 +302,30 @@
 </main>
 
   <script>
+    (function(){
+      const target=new Date('2026-12-05T09:00:00+07:00').getTime();
+      const days=document.getElementById('countDays');
+      const hours=document.getElementById('countHours');
+      const minutes=document.getElementById('countMinutes');
+      const seconds=document.getElementById('countSeconds');
+      const message=document.getElementById('countdownMessage');
+      if(!days||!hours||!minutes||!seconds||!message)return;
+      function updateCountdown(){
+        const remaining=target-Date.now();
+        if(remaining<=0){
+          days.textContent='00';hours.textContent='00';minutes.textContent='00';seconds.textContent='00';
+          message.textContent='ถึงวันแห่งความสุขของเราแล้ว';
+          return;
+        }
+        const totalSeconds=Math.floor(remaining/1000);
+        days.textContent=String(Math.floor(totalSeconds/86400)).padStart(2,'0');
+        hours.textContent=String(Math.floor((totalSeconds%86400)/3600)).padStart(2,'0');
+        minutes.textContent=String(Math.floor((totalSeconds%3600)/60)).padStart(2,'0');
+        seconds.textContent=String(totalSeconds%60).padStart(2,'0');
+      }
+      updateCountdown();
+      window.setInterval(updateCountdown,1000);
+    })();
     (function(){
       const toggle=document.getElementById('galleryToggle');
       const grid=document.getElementById('galleryGrid');
