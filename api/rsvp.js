@@ -1,5 +1,4 @@
-// Public RSVP endpoint. Uses the Supabase anon key and the existing RLS INSERT policy.
-// Never put the service-role key in this endpoint or in browser code.
+// Public RSVP endpoint. Google Sheets is the single source of truth.
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -31,47 +30,53 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, message: "กรุณาเลือกสถานะการเข้าร่วมงานให้ถูกต้อง" });
     }
 
-    let guest_count = null;
-    let companions = null;
+    let guest_count = "";
+    let companions = "";
     if (attendance === "attending") {
       guest_count = Number(data.guest_count);
       if (!Number.isInteger(guest_count) || guest_count < 1 || guest_count > 20) {
         return res.status(400).json({ success: false, message: "จำนวนผู้เข้าร่วมต้องอยู่ระหว่าง 1 ถึง 20 คน" });
       }
-      companions = companion_names || null;
+      companions = companion_names;
     }
 
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const anonKey = process.env.SUPABASE_ANON_KEY;
-    if (!supabaseUrl || !anonKey) {
-      return res.status(500).json({ success: false, message: "เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า Supabase" });
-    }
-
-    const endpoint = supabaseUrl.replace(/\/$/, "") + "/rest/v1/rsvps";
-    const upstream = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": anonKey,
-        "Authorization": "Bearer " + anonKey,
-        "Prefer": "return=minimal"
-      },
-      body: JSON.stringify({
-        full_name,
-        phone: phone || null,
-        attendance,
-        guest_count,
-        companion_names: companions,
-        message: message || null
-      })
+    const result = await sendToWeddingSheets({
+      action: "rsvp",
+      full_name,
+      phone,
+      attendance,
+      guest_count,
+      companion_names: companions,
+      message
     });
 
-    if (!upstream.ok) {
-      const detail = (await upstream.text()).slice(0, 300);
-      return res.status(502).json({ success: false, message: "บันทึก RSVP ไม่สำเร็จ: " + detail });
+    if (!result.success) {
+      return res.status(502).json({ success: false, message: result.message || "ไม่สามารถบันทึกคำตอบได้" });
     }
     return res.status(200).json({ success: true, message: "บันทึกคำตอบเรียบร้อยแล้ว" });
   } catch (error) {
-    return res.status(500).json({ success: false, message: error.message || "เกิดข้อผิดพลาดภายในระบบ" });
+    return res.status(502).json({ success: false, message: error.message || "ไม่สามารถเชื่อมต่อระบบจัดเก็บข้อมูลได้" });
   }
+}
+
+async function sendToWeddingSheets(payload) {
+  const url = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const secret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
+  if (!url || !secret) {
+    throw new Error("เซิร์ฟเวอร์ยังไม่ได้ตั้งค่า Google Sheets");
+  }
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...payload, secret }),
+    redirect: "follow"
+  });
+  const raw = await response.text();
+  let result;
+  try { result = JSON.parse(raw); }
+  catch (_) { throw new Error("Google Apps Script ส่งผลลัพธ์ไม่ถูกต้อง"); }
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Google Sheets ไม่สามารถบันทึกข้อมูลได้");
+  }
+  return result;
 }
