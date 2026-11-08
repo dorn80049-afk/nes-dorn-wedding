@@ -1,7 +1,7 @@
 # Next Tasks
 
 ## Immediate
-1. Upload the confirmed payment QR image to the repository root as `qr-payment.png`.
+1. Confirm the restored `qr-payment.png` is the correct active receiving QR by scanning it with the bank app before production.
 2. Deploy the development branch to a Vercel Preview and test the gift form end-to-end using a small test file.
 3. Confirm the new row appears in Supabase `wedding_gifts` and the private file appears in Google Drive `SLIPS 2026`.
 4. Inspect the existing Supabase schema and RLS policies before implementing RSVP persistence.
