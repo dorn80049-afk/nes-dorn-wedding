@@ -11,3 +11,4 @@
 - Added PROJECT_CONTEXT.md, PROJECT_STATUS.md, DATABASE.md, CHANGELOG.md and NEXT_TASKS.md.
 - No Supabase schema or Google Apps Script code was modified.
 - Changes remain on the feature branch pending review; not merged to main.
+\n## 2026-11-08 — Gift/slip integration\n- Added a same-origin Vercel serverless proxy (`api/gift.js`) forwarding validated gift submissions to the existing Apps Script Web App.\n- Added a responsive online gift form to `index.html` with name, phone, amount, message and slip attachment.\n- Limited browser uploads to 3 MB to fit serverless request constraints.\n- Kept QR image as a named asset placeholder (`qr-payment.png`) because no payment QR file is currently present in the repository.\n- Did not modify Apps Script, Supabase schema, or policies. RSVP persistence remains pending because the supplied Apps Script only writes `wedding_gifts`.\n

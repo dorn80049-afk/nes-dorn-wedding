@@ -25,7 +25,27 @@
     .venue{max-width:640px;margin:24px auto 0;padding:28px 20px;background:#fff;border:1px solid var(--line);border-radius:16px}.venue-address{font-size:1.05rem;color:var(--navy);margin:0 0 18px}.map{width:100%;height:300px;border:0;border-radius:12px;background:#ececec;margin-top:20px}
     .rsvp{background:linear-gradient(145deg,var(--navy),var(--navy2));color:#fff}.rsvp h2{color:#fff}.rsvp .sub{color:#e2e7ef}.gift-note{max-width:600px;margin:24px auto 0;padding:20px;border:1px solid #b99a6277;border-radius:14px;background:#ffffff0b;color:#f4efe5}
     footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.88rem}footer strong{font:italic 1.5rem Georgia,serif;color:var(--navy)}
-    @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
+
+    .gift-panel{max-width:650px;margin:28px auto 0;padding:24px;background:#fff;color:var(--ink);border-radius:18px;text-align:left;box-shadow:0 12px 34px #0002}
+    .gift-panel h3{margin:0 0 6px;color:var(--navy);font:500 1.35rem "Noto Serif Thai",serif;text-align:center}
+    .gift-panel .help{margin:0 0 20px;text-align:center;color:var(--muted);font-size:.9rem}
+    .gift-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .gift-field{margin:0 0 14px}
+    .gift-field label{display:block;font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:6px}
+    .gift-field input,.gift-field textarea{width:100%;padding:12px 13px;border:1px solid #d8dce3;border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+    .gift-field input:focus,.gift-field textarea:focus{outline:2px solid #b99a6266;border-color:var(--gold)}
+    .gift-field input[type=file]{font-size:.85rem}
+    .qr-box{max-width:230px;margin:0 auto 20px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:14px;text-align:center}
+    .qr-box img{width:100%;height:auto;display:block}
+    .qr-placeholder{min-height:190px;display:grid;place-items:center;background:#f6f3ed;color:var(--muted);padding:16px;font-size:.88rem;border-radius:8px}
+    .gift-submit{width:100%;border:0;cursor:pointer;font:600 1rem inherit}
+    .gift-submit:disabled{opacity:.55;cursor:wait}
+    .form-message{display:none;margin-top:14px;padding:12px;border-radius:10px;font-size:.9rem}
+    .form-message.show{display:block}.form-message.ok{background:#edf8f0;color:#176534}.form-message.err{background:#fff0ee;color:#9b2820}
+    .privacy-note{font-size:.78rem;color:var(--muted);margin:10px 0 0}
+    .rsvp-pending{max-width:650px;margin:16px auto 0;padding:16px;border:1px solid #b99a6277;border-radius:12px;background:#ffffff0b;color:#f4efe5;font-size:.9rem}
+    @media(max-width:600px){.gift-panel{padding:18px 15px}.gift-grid{grid-template-columns:1fr}}
+\n    @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
   </style>
 </head>
@@ -95,14 +115,106 @@
   <section class="section rsvp" id="rsvp">
     <p class="kicker">With love</p>
     <h2>ร่วมตอบรับและแสดงความยินดี</h2>
-    <p class="sub">เรายินดีอย่างยิ่งที่ได้รับความรักและคำอวยพรจากทุกท่าน</p>
-    <div class="gift-note">
-      <strong>ระบบตอบรับและร่วมแสดงความยินดี</strong><br>
-      กำลังเชื่อมต่อกับระบบ RSVP และอัปโหลดหลักฐานการโอนเงินของโครงการ<br>
-      กรุณาติดตามลิงก์แบบฟอร์มเมื่อระบบพร้อมใช้งาน
+    <p class="sub">ขอบพระคุณสำหรับความรัก คำอวยพร และทุกความปรารถนาดีที่มอบให้คู่บ่าวสาว</p>
+
+    <div class="rsvp-pending">
+      <strong>แจ้งการเข้าร่วมงาน (RSVP)</strong><br>
+      ระบบบันทึก RSVP จะเปิดใช้งานหลังตรวจสอบโครงสร้างตาราง RSVP ใน Supabase เพื่อให้ข้อมูลของแขกถูกจัดเก็บอย่างถูกต้อง
+    </div>
+
+    <div class="gift-panel">
+      <h3>ร่วมแสดงความยินดีออนไลน์</h3>
+      <p class="help">สแกน QR Code เพื่อร่วมมอบของขวัญ จากนั้นกรอกข้อมูลและแนบหลักฐานการโอนเงิน</p>
+      <div class="qr-box">
+        <img src="qr-payment.png" alt="QR Code รับเงิน" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'qr-placeholder',textContent:'รอใส่ QR Code รับเงินที่ยืนยันแล้ว'}))">
+        <small>QR Code รับเงินร่วมแสดงความยินดี</small>
+      </div>
+      <form id="giftForm">
+        <div class="gift-grid">
+          <div class="gift-field">
+            <label for="giftName">ชื่อ–นามสกุล *</label>
+            <input id="giftName" name="full_name" autocomplete="name" maxlength="150" required>
+          </div>
+          <div class="gift-field">
+            <label for="giftPhone">เบอร์โทรศัพท์ *</label>
+            <input id="giftPhone" name="phone" type="tel" autocomplete="tel" maxlength="30" required>
+          </div>
+        </div>
+        <div class="gift-field">
+          <label for="giftAmount">จำนวนเงินที่ร่วมแสดงความยินดี (บาท) *</label>
+          <input id="giftAmount" name="amount" type="number" min="1" step="0.01" inputmode="decimal" required>
+        </div>
+        <div class="gift-field">
+          <label for="giftMessage">ข้อความอวยพรคู่บ่าวสาว</label>
+          <textarea id="giftMessage" name="message" rows="3" maxlength="1000" placeholder="เขียนคำอวยพรได้ที่นี่"></textarea>
+        </div>
+        <div class="gift-field">
+          <label for="giftSlip">แนบหลักฐานการโอนเงิน (Slip) *</label>
+          <input id="giftSlip" name="slip" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required>
+          <p class="privacy-note">รองรับ JPG, PNG, WEBP หรือ PDF ขนาดไม่เกิน 3 MB ต่อไฟล์</p>
+        </div>
+        <button class="btn btn-primary gift-submit" id="giftSubmit" type="submit">ส่งข้อมูลและหลักฐาน</button>
+        <div class="form-message" id="giftMessage" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </section>
   <footer><strong>DN</strong><br>ND THE WEDDING · 05.12.2026<br><span>ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</span></footer>
 </main>
-</body>
+
+  <script>
+    (function(){
+      const form=document.getElementById('giftForm');
+      if(!form) return;
+      const submit=document.getElementById('giftSubmit');
+      const notice=document.getElementById('giftMessage');
+      const fileInput=document.getElementById('giftSlip');
+      function showMessage(text,type){
+        notice.textContent=text;
+        notice.className='form-message show '+type;
+      }
+      function fileToBase64(file){
+        return new Promise((resolve,reject)=>{
+          const reader=new FileReader();
+          reader.onload=()=>resolve(String(reader.result).split(',')[1]||'');
+          reader.onerror=()=>reject(new Error('ไม่สามารถอ่านไฟล์สลิปได้'));
+          reader.readAsDataURL(file);
+        });
+      }
+      form.addEventListener('submit',async function(event){
+        event.preventDefault();
+        const file=fileInput.files && fileInput.files[0];
+        if(!file){showMessage('กรุณาแนบไฟล์สลิปก่อนส่งข้อมูล','err');return;}
+        const allowed=['image/jpeg','image/png','image/webp','application/pdf'];
+        if(!allowed.includes(file.type)){showMessage('รองรับเฉพาะ JPG, PNG, WEBP และ PDF','err');return;}
+        if(file.size>3*1024*1024){showMessage('ไฟล์ต้องมีขนาดไม่เกิน 3 MB เพื่อให้ส่งผ่านเว็บไซต์ได้อย่างเสถียร','err');return;}
+        submit.disabled=true;
+        submit.textContent='กำลังส่งข้อมูล...';
+        notice.className='form-message';
+        try{
+          const payload={
+            full_name:document.getElementById('giftName').value.trim(),
+            phone:document.getElementById('giftPhone').value.trim(),
+            amount:Number(document.getElementById('giftAmount').value),
+            message:document.getElementById('giftMessage').value.trim(),
+            file:{base64:await fileToBase64(file),mimeType:file.type}
+          };
+          const response=await fetch('/api/gift',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+          });
+          const result=await response.json();
+          if(!response.ok || !result.success) throw new Error(result.message||'ระบบไม่สามารถบันทึกข้อมูลได้');
+          showMessage('ส่งข้อมูลและอัปโหลดสลิปเรียบร้อยแล้ว ขอบพระคุณสำหรับของขวัญและคำอวยพร','ok');
+          form.reset();
+        }catch(error){
+          showMessage(error.message||'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง','err');
+        }finally{
+          submit.disabled=false;
+          submit.textContent='ส่งข้อมูลและหลักฐาน';
+        }
+      });
+    })();
+  </script>
+\n</body>
 </html>
