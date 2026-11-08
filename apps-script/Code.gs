@@ -97,20 +97,39 @@ function saveRsvp_(spreadsheet, body) {
 
 function saveGift_(spreadsheet, body) {
   const name = cleanText_(body.full_name, 150);
-  const phone = cleanText_(body.phone, 30);
-  const amount = Number(body.amount);
+  const phone = cleanText_(body.phone, 30); // Optional: the gift form does not ask for a phone number.
+  const amountRaw = body.amount;
+  const amount = Number(amountRaw);
   const message = cleanText_(body.message, 1000);
-  const file = body.file || {};
-  const mimeType = String(file.mimeType || "");
+  const file = body.file && typeof body.file === "object" ? body.file : {};
+  const mimeType = String(file.mimeType || "").trim().toLowerCase();
+  const base64 = typeof file.base64 === "string" ? file.base64.trim() : "";
   const allowed = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
-  if (!name || !Number.isFinite(amount) || amount <= 0 ||
-      !file.base64 || !allowed.includes(mimeType)) {
-    return json_({ success: false, message: "ข้อมูลของขวัญหรือไฟล์สลิปไม่ถูกต้อง" });
+  // Return a specific validation message so the cause can be identified from the form.
+  if (!name) {
+    return json_({ success: false, message: "กรุณากรอกชื่อ–นามสกุล" });
+  }
+  if (amountRaw === "" || amountRaw == null || !Number.isFinite(amount) || amount <= 0) {
+    return json_({ success: false, message: "กรุณาตรวจสอบจำนวนเงิน ต้องมากกว่า 0 บาท" });
+  }
+  if (!base64) {
+    return json_({ success: false, message: "ไม่พบข้อมูลไฟล์สลิป กรุณาเลือกไฟล์อีกครั้ง" });
+  }
+  if (!allowed.includes(mimeType)) {
+    return json_({ success: false, message: "ชนิดไฟล์สลิปไม่รองรับ กรุณาใช้ JPG, PNG, WEBP หรือ PDF" });
   }
 
-  const bytes = Utilities.base64Decode(String(file.base64));
-  if (!bytes.length || bytes.length > 3 * 1024 * 1024) {
+  let bytes;
+  try {
+    bytes = Utilities.base64Decode(base64);
+  } catch (error) {
+    return json_({ success: false, message: "อ่านข้อมูลไฟล์สลิปไม่ได้ กรุณาเลือกไฟล์ใหม่" });
+  }
+  if (!bytes.length) {
+    return json_({ success: false, message: "ไฟล์สลิปว่างเปล่าหรือเสียหาย กรุณาเลือกไฟล์ใหม่" });
+  }
+  if (bytes.length > 3 * 1024 * 1024) {
     return json_({ success: false, message: "ไฟล์ต้องมีขนาดไม่เกิน 3 MB" });
   }
 
@@ -132,7 +151,6 @@ function saveGift_(spreadsheet, body) {
   ]);
   return json_({ success: true });
 }
-
 function ensureSheet_(spreadsheet, name, headers) {
   let sheet = spreadsheet.getSheetByName(name);
   if (!sheet) sheet = spreadsheet.insertSheet(name);
