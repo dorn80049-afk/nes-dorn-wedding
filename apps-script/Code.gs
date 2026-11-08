@@ -172,6 +172,42 @@ function ensureSheet_(spreadsheet, name, headers) {
   }
 }
 
+
+/**
+ * Run once after deploying to restore clickable links for older gift records.
+ * Existing slip files are looked up using the Drive file IDs already stored in GIFTS.
+ */
+function restoreExistingSlipLinks() {
+  const spreadsheetId = PROP.getProperty("SPREADSHEET_ID");
+  if (!spreadsheetId) throw new Error("ยังไม่ได้ตั้งค่า SPREADSHEET_ID กรุณารัน setupWeddingSheets()");
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  ensureSheet_(spreadsheet, "GIFTS", GIFT_HEADERS);
+  const sheet = spreadsheet.getSheetByName("GIFTS");
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(String);
+  const fileIdColumn = headers.indexOf("Slip file ID") + 1;
+  const linkColumn = headers.indexOf("Slip link") + 1;
+  if (!fileIdColumn || !linkColumn) throw new Error("ไม่พบคอลัมน์ Slip file ID หรือ Slip link");
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return "ไม่มีรายการของขวัญเดิมให้กู้คืนลิงก์";
+
+  const ids = sheet.getRange(2, fileIdColumn, lastRow - 1, 1).getValues();
+  const links = sheet.getRange(2, linkColumn, lastRow - 1, 1).getValues();
+  let restored = 0;
+  for (let i = 0; i < ids.length; i++) {
+    const fileId = String(ids[i][0] || "").trim();
+    if (!fileId || links[i][0]) continue;
+    try {
+      links[i][0] = DriveApp.getFileById(fileId).getUrl();
+      restored++;
+    } catch (error) {
+      // Keep the cell blank if the Drive file is no longer accessible.
+    }
+  }
+  sheet.getRange(2, linkColumn, links.length, 1).setValues(links);
+  return "กู้คืนลิงก์สลิปได้ " + restored + " รายการ";
+}
+
 function cleanText_(value, maxLength) {
   return String(value == null ? "" : value).trim().slice(0, maxLength);
 }
