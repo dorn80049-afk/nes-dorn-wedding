@@ -21,7 +21,7 @@ Last updated: 2026-11-08
 
 ## Pending / not yet verified
 - The Apps Script deployment URL is supplied, but a live end-to-end request has not been executed from the deployed Vercel site.
-- Payment QR image is not present in the repository; index.html currently shows a placeholder for qr-payment.png.
+- Recovered the payment QR image from the owner's saved RSVP prototype and added it to the repository as qr-payment.png.
 - RSVP persistence is not implemented by the supplied Apps Script code. It requires inspection of existing RSVP table/schema and a separate endpoint; do not write RSVP rows into wedding_gifts.
 - Supabase table columns, RLS and policies have not been independently inspected.
 - Admin Dashboard, gift review/approval, and end-to-end tests remain outstanding.
