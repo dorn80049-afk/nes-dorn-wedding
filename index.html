@@ -1,197 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#142b55">
-  <meta name="description" content="การ์ดเชิญงานแต่งงานของ Nes & Dorn">
-  <title>Wedding Invitation | Nes &amp; Dorn</title>
+  <meta name="description" content="ND THE WEDDING — ขอเรียนเชิญร่วมเป็นเกียรติในพิธีมงคลสมรสของดวงมณีและอุดร วันที่ 5 ธันวาคม 2569">
+  <title>ND THE WEDDING | 05.12.2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Noto+Serif+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --navy: #142b55;
-      --navy-deep: #0b1933;
-      --blue: #7186a8;
-      --gold: #b99a62;
-      --paper: #fbfaf7;
-      --ink: #263247;
-      --muted: #6d7787;
-      --line: #e7e1d6;
-      --white: #fff;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; background: #edf0f4; color: var(--ink);
-      font-family: "IBM Plex Sans Thai", sans-serif; line-height: 1.7;
-    }
-    button, a { font: inherit; }
-    button { cursor: pointer; }
-    .page {
-      width: min(100%, 760px); min-height: 100vh; margin: 0 auto;
-      background: var(--paper); box-shadow: 0 12px 50px #17243a18;
-      overflow: hidden;
-    }
-    .cover {
-      min-height: 560px; padding: 38px 24px 54px; text-align: center;
-      color: var(--white); position: relative; isolation: isolate;
-      background: linear-gradient(145deg, #1d396b, var(--navy-deep));
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .cover::before, .cover::after {
-      content: ""; position: absolute; width: 230px; height: 230px;
-      border: 1px solid #c8b58b66; border-radius: 50%; z-index: -1;
-    }
-    .cover::before { top: -125px; left: -105px; }
-    .cover::after { bottom: -140px; right: -90px; }
-    .logo { width: min(150px, 42vw); max-height: 130px; object-fit: contain; margin-bottom: 20px; }
-    .eyebrow { letter-spacing: .22em; font-size: .76rem; color: #e3d3b2; text-transform: uppercase; }
-    h1, h2, h3 { font-family: "Noto Serif Thai", serif; font-weight: 500; }
-    .cover h1 { margin: 10px 0 2px; font-size: clamp(2.4rem, 9vw, 4.3rem); line-height: 1.25; }
-    .ampersand { color: #d7c29b; font-family: Georgia, serif; font-style: italic; font-size: 2rem; }
-    .cover-sub { margin: 16px 0 0; color: #e6eaf1; font-size: 1rem; }
-    .ornament { width: 74px; height: 1px; background: var(--gold); margin: 24px auto; }
-    .open-button, .rsvp-button {
-      border: 1px solid #d4bd91; color: var(--white); background: transparent;
-      border-radius: 999px; padding: 11px 28px; transition: .2s ease;
-    }
-    .open-button:hover, .rsvp-button:hover { background: #ffffff18; transform: translateY(-1px); }
-    .section { padding: 58px 28px; text-align: center; }
-    .section + .section { border-top: 1px solid var(--line); }
-    .section h2 { color: var(--navy); font-size: clamp(1.45rem, 5vw, 2rem); margin: 0 0 10px; }
-    .lead { color: var(--muted); margin: 0 auto 24px; max-width: 540px; }
-    .hero-media { width: min(100%, 560px); margin: 28px auto 0; border-radius: 14px; overflow: hidden; background: #101827; box-shadow: 0 12px 28px #142b551c; }
-    .hero-media video { display: block; width: 100%; max-height: 420px; object-fit: contain; }
-    .event-card {
-      max-width: 520px; margin: 26px auto 0; padding: 28px 22px;
-      border: 1px solid var(--line); background: #fff; border-radius: 14px;
-    }
-    .event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 12px; }
-    .event-item strong { display: block; color: var(--navy); font-size: 1.05rem; }
-    .event-item span { color: var(--muted); font-size: .9rem; }
-    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 580px; margin: 28px auto 0; }
-    .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; background: #e8eaf0; }
-    .rsvp-wrap { background: var(--navy); color: white; padding: 52px 24px; text-align: center; }
-    .rsvp-wrap h2 { margin: 0 0 8px; font-size: 1.8rem; }
-    .rsvp-wrap p { color: #e0e6ef; margin: 0 auto 22px; max-width: 500px; }
-    .rsvp-button { display: inline-block; text-decoration: none; }
-    footer { padding: 24px; text-align: center; color: var(--muted); font-size: .85rem; }
-    #welcome-modal {
-      position: fixed; inset: 0; z-index: 50; padding: 20px;
-      display: grid; place-items: center; background: #09152bea;
-      opacity: 1; visibility: visible; transition: opacity .35s, visibility .35s;
-    }
-    #welcome-modal.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    .welcome-card {
-      width: min(100%, 420px); padding: 34px 24px; text-align: center;
-      border: 1px solid var(--gold); border-radius: 18px; background: var(--paper);
-      box-shadow: 0 20px 60px #0005;
-    }
-    .welcome-card .logo { width: 125px; max-height: 110px; }
-    .welcome-card h2 { color: var(--navy); margin: 0 0 8px; font-size: 1.8rem; }
-    .welcome-card p { color: var(--muted); margin: 0 0 22px; }
-    .welcome-card .open-button { color: var(--navy); border-color: var(--navy); }
-    .welcome-card .open-button:hover { color: white; background: var(--navy); }
-    .small-note { color: var(--muted); font-size: .82rem; margin-top: 18px; }
-    @media (max-width: 480px) {
-      .cover { min-height: 510px; }
-      .section { padding: 46px 20px; }
-      .event-grid { grid-template-columns: 1fr; gap: 16px; }
-      .gallery { gap: 9px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    }
+    :root{--navy:#142b55;--navy2:#0b1933;--gold:#b99a62;--champagne:#e8d8b8;--ivory:#fbfaf7;--ink:#263247;--muted:#687386;--line:#e8e0d2;--white:#fff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef0f3;color:var(--ink);font-family:"IBM Plex Sans Thai",sans-serif;line-height:1.75}a{color:inherit}button,a{touch-action:manipulation}
+    .shell{width:min(100%,900px);margin:auto;background:var(--ivory);box-shadow:0 12px 50px #17243a16;overflow:hidden}
+    .hero{position:relative;isolation:isolate;min-height:620px;padding:70px 24px 64px;display:grid;place-items:center;text-align:center;color:#fff;background:radial-gradient(ellipse at 50% 15%,#314a72 0,#1a3159 42%,var(--navy2) 100%)}
+    .hero:before,.hero:after{content:"";position:absolute;z-index:-1;border:1px solid #c6a96d66;border-radius:50%;width:300px;height:300px}.hero:before{top:-210px;left:-140px}.hero:after{right:-170px;bottom:-210px}
+    .hero-inner{max-width:650px}.monogram{width:104px;height:104px;margin:0 auto 18px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--champagne);font:italic 3.1rem Georgia,serif;letter-spacing:-.1em;padding-right:.12em}
+    .eyebrow{font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--champagne);margin:0 0 12px}.hero h1{font:500 clamp(2.8rem,9vw,5rem)/1.2 Georgia,"Noto Serif Thai",serif;margin:0}.amp{color:var(--gold);font-style:italic}.hero .thai-names{margin:18px 0 0;font-size:1.05rem;color:#f1eee8}.rule{width:90px;height:1px;background:var(--gold);margin:24px auto}.date{font:400 clamp(1.45rem,5vw,2.2rem) Georgia,serif;letter-spacing:.12em;color:#fff}.date-th{margin:5px 0 0;color:#e6dfd2}.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--gold);font-weight:500;transition:.2s}.btn-primary{background:var(--gold);color:#171f2d}.btn-outline{color:#fff;background:transparent}.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+    .section{padding:64px 28px;text-align:center}.section+.section{border-top:1px solid var(--line)}.section h2{font:500 clamp(1.5rem,5vw,2.1rem)/1.4 "Noto Serif Thai",serif;color:var(--navy);margin:0 0 8px}.sub{color:var(--muted);margin:0 auto 26px;max-width:620px}.kicker{font-size:.72rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin:0 0 8px}
+    .invitation{max-width:690px;margin:24px auto 0;padding:28px;border:1px solid var(--line);background:#fff;border-radius:18px}.invitation p{margin:6px 0}.family-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}.family{padding:18px;background:#faf8f3;border-radius:12px}.family strong{display:block;color:var(--navy);margin-bottom:6px}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:760px;margin:30px auto 0}.card-frame{background:#fff;border:1px solid var(--line);padding:10px;border-radius:14px;box-shadow:0 10px 28px #17243a10}.card-frame img{display:block;width:100%;height:auto;min-height:260px;object-fit:contain;border-radius:8px;background:#f2f0eb}.missing{min-height:260px;display:grid;place-items:center;padding:20px;color:var(--muted);background:#f6f3ed;border-radius:8px;font-size:.9rem}
+    .schedule{max-width:600px;margin:28px auto 0;text-align:left}.event{display:grid;grid-template-columns:105px 1fr;gap:18px;padding:17px 0;border-bottom:1px solid var(--line)}.event time{font:600 1.05rem Georgia,serif;color:var(--gold)}.event strong{display:block;color:var(--navy);font-weight:600}.event span{font-size:.92rem;color:var(--muted)}
+    .venue{max-width:640px;margin:24px auto 0;padding:28px 20px;background:#fff;border:1px solid var(--line);border-radius:16px}.venue-address{font-size:1.05rem;color:var(--navy);margin:0 0 18px}.map{width:100%;height:300px;border:0;border-radius:12px;background:#ececec;margin-top:20px}
+    .rsvp{background:linear-gradient(145deg,var(--navy),var(--navy2));color:#fff}.rsvp h2{color:#fff}.rsvp .sub{color:#e2e7ef}.gift-note{max-width:600px;margin:24px auto 0;padding:20px;border:1px solid #b99a6277;border-radius:14px;background:#ffffff0b;color:#f4efe5}
+    footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.88rem}footer strong{font:italic 1.5rem Georgia,serif;color:var(--navy)}
+    @media(max-width:600px){.hero{min-height:570px;padding:55px 20px}.section{padding:48px 18px}.family-grid,.cards{grid-template-columns:1fr}.cards{max-width:430px}.card-frame img{min-height:0}.event{grid-template-columns:86px 1fr;gap:10px}.map{height:250px}.invitation{padding:22px 16px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
   </style>
 </head>
 <body>
-  <div id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-    <div class="welcome-card">
-      <img class="logo" src="logo.png" alt="Nes &amp; Dorn monogram" onerror="this.hidden=true">
-      <p class="eyebrow">Wedding Invitation</p>
-      <h2 id="welcome-title">Nes <span class="ampersand">&amp;</span> Dorn</h2>
-      <p>ขอเชิญร่วมเป็นส่วนหนึ่งในวันสำคัญของเรา</p>
-      <button class="open-button" id="open-invitation" type="button">เปิดการ์ดเชิญ</button>
-      <p class="small-note">ด้วยรักและยินดี</p>
+<main class="shell">
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="monogram" aria-label="DN monogram">DN</div>
+      <p class="eyebrow">The Wedding Celebration</p>
+      <h1>Duangmanee <span class="amp">&amp;</span> Udorn</h1>
+      <p class="thai-names">นางสาวดวงมณี ชาตรี &nbsp;·&nbsp; นายอุดร ชาตรี</p>
+      <div class="rule"></div>
+      <p class="date">05 · 12 · 2026</p>
+      <p class="date-th">วันเสาร์ที่ ๕ ธันวาคม ๒๕๖๙</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#details">รายละเอียดงาน</a>
+        <a class="btn btn-outline" href="#rsvp">ตอบรับ / ส่งความยินดี</a>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <main class="page">
-    <header class="cover">
-      <img class="logo" src="logo.png" alt="Nes &amp; Dorn monogram" onerror="this.hidden=true">
-      <p class="eyebrow">Together with our families</p>
-      <h1>Nes <span class="ampersand">&amp;</span> Dorn</h1>
-      <div class="ornament"></div>
-      <p class="cover-sub">ขอเรียนเชิญร่วมเฉลิมฉลองวันสำคัญของเรา</p>
-      <button class="open-button" type="button" id="view-details">ดูรายละเอียดงาน</button>
-      <div class="hero-media">
-        <video controls playsinline preload="metadata" poster="card1.jpg">
-          <source src="25691024_121114_658.MP4" type="video/mp4">
-          ขออภัย เบราว์เซอร์นี้ไม่รองรับการเล่นวิดีโอ
-        </video>
+  <section class="section" id="details">
+    <p class="kicker">With our families</p>
+    <h2>ขอเรียนเชิญร่วมเป็นเกียรติ</h2>
+    <p class="sub">เนื่องในพิธีมงคลสมรสของเรา ขอเรียนเชิญทุกท่านร่วมแบ่งปันความสุขและความทรงจำในวันสำคัญ</p>
+    <div class="invitation">
+      <p>มีความยินดีขอเรียนเชิญเป็นเกียรติเนื่องในพิธีมงคลสมรส</p>
+      <div class="family-grid">
+        <div class="family"><strong>ฝ่ายเจ้าสาว</strong>นายวิชิต เกณทวี<br>นางทองนิ้ม ภิรมย์</div>
+        <div class="family"><strong>ฝ่ายเจ้าบ่าว</strong>นายจันทร์ ชาตรี<br>นางบุญโอม ชาตรี</div>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <section class="section" id="details">
-      <p class="eyebrow">Our Special Day</p>
-      <h2>กำหนดการและสถานที่</h2>
-      <p class="lead">เรายินดีเป็นอย่างยิ่งที่จะได้แบ่งปันช่วงเวลาพิเศษนี้กับทุกท่าน</p>
-      <div class="event-card">
-        <div class="event-grid">
-          <div class="event-item"><strong>วัน / วันที่</strong><span>โปรดใส่วันและวันที่จัดงาน</span></div>
-          <div class="event-item"><strong>เวลา</strong><span>โปรดใส่เวลาเริ่มงาน</span></div>
-          <div class="event-item"><strong>สถานที่</strong><span>โปรดใส่ชื่อสถานที่จัดงาน</span></div>
-          <div class="event-item"><strong>การแต่งกาย</strong><span>โทนสีกรมท่า (Navy)</span></div>
-        </div>
-      </div>
-      <p class="small-note">* กรุณาแก้ไขข้อมูลวัน เวลา และสถานที่ในไฟล์ index.html ก่อนเผยแพร่จริง</p>
-    </section>
+  <section class="section" id="cards">
+    <p class="kicker">Wedding Invitation</p>
+    <h2>การ์ดเชิญมงคลสมรส</h2>
+    <p class="sub">สามารถเปิดดูการ์ดเชิญทั้งสองหน้าได้จากภาพด้านล่าง</p>
+    <div class="cards">
+      <figure class="card-frame"><img src="card1.jpg" alt="การ์ดเชิญงานแต่งงาน หน้า 1" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'missing',textContent:'รออัปโหลดภาพการ์ดเชิญหน้า 1 (card1.jpg)'}))"></figure>
+      <figure class="card-frame"><img src="card2.jpg" alt="การ์ดเชิญงานแต่งงาน หน้า 2" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'missing',textContent:'รออัปโหลดภาพการ์ดเชิญหน้า 2 (card2.jpg)'}))"></figure>
+    </div>
+  </section>
 
-    <section class="section">
-      <p class="eyebrow">Our Memories</p>
-      <h2>ภาพแห่งความทรงจำ</h2>
-      <p class="lead">ขอบคุณที่ร่วมเป็นส่วนหนึ่งในเรื่องราวของเรา</p>
-      <div class="gallery">
-        <img src="card1.jpg" alt="ภาพความทรงจำของ Nes และ Dorn" loading="lazy">
-        <img src="card2.jpg" alt="ภาพความทรงจำของ Nes และ Dorn" loading="lazy">
-      </div>
-    </section>
+  <section class="section" id="schedule">
+    <p class="kicker">Save the date</p>
+    <h2>กำหนดการพิธีมงคลสมรส</h2>
+    <p class="sub">วันเสาร์ที่ ๕ ธันวาคม ๒๕๖๙</p>
+    <div class="schedule">
+      <div class="event"><time>08.09 น.</time><div><strong>แห่ขันหมาก</strong><span>ขบวนขันหมากเข้าสู่พิธีมงคล</span></div></div>
+      <div class="event"><time>09.09 น.</time><div><strong>บายศรีสู่ขวัญ</strong><span>ร่วมพิธีบายศรีสู่ขวัญเพื่อความเป็นสิริมงคล</span></div></div>
+      <div class="event"><time>10.09 น.</time><div><strong>ผูกข้อมือ</strong><span>รับพรจากญาติผู้ใหญ่และแขกผู้มีเกียรติ</span></div></div>
+      <div class="event"><time>11.00 น.</time><div><strong>ร่วมรับประทานอาหาร</strong><span>รับประทานอาหารร่วมกัน</span></div></div>
+    </div>
+  </section>
 
-    <section class="rsvp-wrap">
-      <p class="eyebrow">With love</p>
-      <h2>แล้วพบกันนะครับ</h2>
-      <p>เรารอคอยที่จะได้ต้อนรับและแบ่งปันความสุขกับทุกท่าน</p>
-      <!-- หากมีลิงก์ตอบรับเข้าร่วมงาน ให้แทน # ด้วย URL จริง -->
-      <a class="rsvp-button" href="#details">ดูรายละเอียดงาน</a>
-    </section>
-    <footer>Made with love · Nes &amp; Dorn</footer>
-  </main>
+  <section class="section" id="venue">
+    <p class="kicker">The Venue</p>
+    <h2>สถานที่จัดงาน</h2>
+    <div class="venue">
+      <p class="venue-address">บ้านเลขที่ ๑๔ หมู่ ๑ บ้านแต้<br>ตำบลแต้ อำเภออุทุมพรพิสัย<br>จังหวัดศรีสะเกษ</p>
+      <a class="btn btn-primary" href="https://www.google.com/maps/place/15.123883,104.181551" target="_blank" rel="noopener noreferrer">เปิด Google Maps</a>
+      <iframe class="map" title="แผนที่สถานที่จัดงาน" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=15.123883,104.181551&output=embed"></iframe>
+    </div>
+  </section>
 
-  <script>
-    (() => {
-      const modal = document.getElementById("welcome-modal");
-      const openButton = document.getElementById("open-invitation");
-      const detailsButton = document.getElementById("view-details");
-
-      function openInvitation() {
-        modal.classList.add("is-hidden");
-        document.body.style.overflow = "";
-      }
-
-      openButton.addEventListener("click", openInvitation);
-      detailsButton.addEventListener("click", () => {
-        document.getElementById("details").scrollIntoView({ behavior: "smooth" });
-      });
-
-      document.body.style.overflow = "hidden";
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && !modal.classList.contains("is-hidden")) {
-          openInvitation();
-        }
-      });
-    })();
-  </script>
+  <section class="section rsvp" id="rsvp">
+    <p class="kicker">With love</p>
+    <h2>ร่วมตอบรับและแสดงความยินดี</h2>
+    <p class="sub">เรายินดีอย่างยิ่งที่ได้รับความรักและคำอวยพรจากทุกท่าน</p>
+    <div class="gift-note">
+      <strong>ระบบตอบรับและร่วมแสดงความยินดี</strong><br>
+      กำลังเชื่อมต่อกับระบบ RSVP และอัปโหลดหลักฐานการโอนเงินของโครงการ<br>
+      กรุณาติดตามลิงก์แบบฟอร์มเมื่อระบบพร้อมใช้งาน
+    </div>
+  </section>
+  <footer><strong>DN</strong><br>ND THE WEDDING · 05.12.2026<br><span>ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</span></footer>
+</main>
 </body>
 </html>
